@@ -1,14 +1,14 @@
-Encoder - just a "hide my pics" short program (I refuse to call it a script)
+Encode - just a "hide my pics" short program (I refuse to call it a script)
 
 usage
 
 -------------------------------------------------------------------------------
 Encode:
-python encoder.py file.txt
+python encode.py file.txt
 
 Decode:
-python encoder.py file.txt moloko
+python encode.py file.txt moloko
 -------------------------------------------------------------------------------
 
 If you give eXecute permission to the file:
-./encoder.py file.txt [moloko]
+./encode.py file.txt [moloko]
