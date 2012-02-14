@@ -2,8 +2,10 @@
 Encode - just a "hide my pics" short program (I refuse to call it a script)
 ===========================================================================
 
-usage
-------
+
+Usage:
+-------
+
   Encode:
     python encode.py file.txt
 
