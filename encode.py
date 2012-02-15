@@ -10,42 +10,65 @@ www.lucaskreutz.com.br
 import sys
 import base64
 
-# The name of the file that is going to be encoded
-filename = sys.argv[1]
 
-# Passed the awesome word?
-if len(sys.argv) > 2:
-    # ... and, is it "moloko"?
-    if "moloko" in sys.argv:
+class Encode:
 
-        # Read the data to decode
-        thefile = open(filename, 'r')
+    def __init__(self, filename):
+        # The name of the file that is going to be encoded
+        self.filename = filename
+
+    def encode(self):
+        """Encodes the given file"""
+
+        # Read the data to encode
+        thefile = open(self.filename, 'rb')
         content = thefile.read()
         thefile.close()
 
-        # Decode the data and save it again
-        decoded = base64.b64decode(content)
-        thefile = open(filename, 'wb')
-        thefile.write(decoded)
+        # Encode and save the new data in the file
+        encoded = base64.b64encode(content)
+        thefile = open(self.filename, 'w')
+        thefile.write(encoded)
         thefile.close()
 
-        print("So, that ~secret~ file is decoded... ;)")
+        print("I encoded that ~secret~ file... :)")
+
+    def decode(self, secretword):
+        """Decodes the given file"""
+
+        if secretword == "moloko":
+            # Read the data to decode
+            thefile = open(self.filename, 'r')
+            content = thefile.read()
+            thefile.close()
+
+            # Decode the data and save it again
+            decoded = base64.b64decode(content)
+            thefile = open(self.filename, 'wb')
+            thefile.write(decoded)
+            thefile.close()
+
+            print("So, that ~secret~ file is decoded... ;)")
+        else:
+
+            # You really must watch "A Clockwork Orange"
+            print("Whoops. '%s' is not a cool word..." % secretword)
+
+
+# So, We have work to do
+if __name__ == "__main__":
+
+    if len(sys.argv) > 1:
+        # Checks if the filename was given
+        filename = sys.argv[1]
+        encoder = Encode(filename)
+
+        if(len(sys.argv) > 2):
+            #Pased the secret word... So you wanna decode, hmm?
+            encoder.decode(sys.argv[2])
+        else:
+            encoder.encode()
     else:
-
-        # You really must watch "A Clockwork Orange"
-        print("Whoops. '%s' is not a cool word..." % sys.argv[2])
-
-else:
-    # No cool word given, so, you want to encode, no?
-    # Read the data to encode
-    thefile = open(filename, 'rb')
-    content = thefile.read()
-    thefile.close()
-
-    # Encode and save the new data in the file
-    encoded = base64.b64encode(content)
-    thefile = open(filename, 'w')
-    thefile.write(encoded)
-    thefile.close()
-
-    print("I encoded that ~secret~ file... :)")
+        print("Heeey, you should give me a filename...")
+        print("\nUsage:")
+        print("  python encode.py file_to_encode.txt [secretword]")
