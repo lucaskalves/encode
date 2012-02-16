@@ -94,7 +94,7 @@ if __name__ == "__main__":
     else:
         print("Heeey, you should give me a filename, a word and an action...")
         print("\nFile to Encode: The filename of the file")
-        print("Secret Word: a word used for encode and decode... keep secret")
+        print("Secret Word: a word used for encode and decode... min. 8 char.")
         print("Action: e - encode, d - decode")
         print("\nUsage:")
         print("  python encode.py file_to_encode.txt secret_word action")
