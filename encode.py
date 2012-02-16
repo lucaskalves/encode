@@ -8,14 +8,17 @@ www.lucaskreutz.com.br
 """
 
 import sys
-import base64
+import blowfish
+import hashlib
 
 
 class Encode:
 
-    def __init__(self, filename):
+    def __init__(self, filename, key):
         # The name of the file that is going to be encoded
         self.filename = filename
+        self.key = key
+        self.bf = blowfish.Blowfish(key)
 
     def encode(self):
         """Encodes the given file"""
@@ -26,24 +29,40 @@ class Encode:
         thefile.close()
 
         # Encode and save the new data in the file
-        encoded = base64.b64encode(content)
+        self.bf.initCTR()
+        encoded = self.bf.encryptCTR(content)
+
+        # Make a hash from the key
+        keyhash = hashlib.md5(self.key + "molokosalt")
+        encoded += keyhash.hexdigest()
+
+        # Save the file
         thefile = open(self.filename, 'w')
         thefile.write(encoded)
         thefile.close()
 
         print("I encoded that ~secret~ file... :)")
 
-    def decode(self, secretword):
+    def decode(self):
         """Decodes the given file"""
 
-        if secretword == "moloko":
-            # Read the data to decode
-            thefile = open(self.filename, 'r')
-            content = thefile.read()
-            thefile.close()
+        # Read the data to decode
+        thefile = open(self.filename, 'r')
+        content = thefile.read()
+        thefile.close()
+
+        # take the hash from the key
+        keyhash = hashlib.md5(self.key + "molokosalt")
+
+        # Compares if the given key is equal the key given to encode
+        if keyhash.hexdigest() == content[len(content) - 32:]:
+
+            # Excludes the hash from the content
+            content = content[:len(content) - 32]
 
             # Decode the data and save it again
-            decoded = base64.b64decode(content)
+            self.bf.initCTR()
+            decoded = self.bf.decryptCTR(content)
             thefile = open(self.filename, 'wb')
             thefile.write(decoded)
             thefile.close()
@@ -52,23 +71,30 @@ class Encode:
         else:
 
             # You really must watch "A Clockwork Orange"
-            print("Whoops. '%s' is not a cool word..." % secretword)
+            print("Whoops. '%s' is not a cool word..." % self.key)
 
 
 # So, We have work to do
 if __name__ == "__main__":
 
-    if len(sys.argv) > 1:
-        # Checks if the filename was given
+    if len(sys.argv) == 4:
+        # Checks if the arguments were given
         filename = sys.argv[1]
-        encoder = Encode(filename)
+        key = sys.argv[2]
+        action = sys.argv[3].lower()
+        encoder = Encode(filename, key)
 
-        if(len(sys.argv) > 2):
-            #Pased the secret word... So you wanna decode, hmm?
-            encoder.decode(sys.argv[2])
-        else:
+        if action == 'd':
+            encoder.decode()
+        elif action == 'e':
             encoder.encode()
+        else:
+            print("Hey, '%s' is not a valid action, man." % action)
+            print("It's supposed to be 'e' for encode and 'd' for decode")
     else:
-        print("Heeey, you should give me a filename...")
+        print("Heeey, you should give me a filename, a word and an action...")
+        print("\nFile to Encode: The filename of the file")
+        print("Secret Word: a word used for encode and decode... keep secret")
+        print("Action: e - encode, d - decode")
         print("\nUsage:")
-        print("  python encode.py file_to_encode.txt [secretword]")
+        print("  python encode.py file_to_encode.txt secret_word action")
