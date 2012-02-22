@@ -1,15 +1,14 @@
 Encode - just a "hide my pics" short program (I refuse to call it a script)
 ===========================================================================
 
+Copyright (c) 2012 Lucas Kreutz
+
 Usage
 -----
 As simple as type some words in the terminal...
 
   Encode:
-    python encode.py file.txt
+    python encode.py file.txt devotchka e
 
   Decode:
-    python encode.py file.txt moloko
-
-  If you give eXecute permission to the file:
-    ./encode.py file.txt [moloko]
+    python encode.py file.txt devotchka d
