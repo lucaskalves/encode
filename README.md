@@ -9,14 +9,10 @@ Usage
 As simple as type some words in the terminal...
 
 ###Encode:
-```shell
-python encode.py file.txt devotchka e
-```
+`python encode.py file.txt devotchka e`
 
 ###Decode:
-```shell
-        python encode.py file.txt devotchka d
-```
+`python encode.py file.txt devotchka d`
 
 License
 -------
