@@ -17,7 +17,7 @@ Where:
 * filename is the the file you want to encode or decode
 * password is a super secret key used to crypt the data and to decode
 * way can be e (for encode) or d (for decode). It tells what you want to
-do with the file.
+do with the file
 
 ###Encode:
 `python encode.py file.txt devotchka e`
