@@ -11,6 +11,14 @@ Usage
 -----
 As simple as type some words in the terminal...
 
+`python encode.py <filename> <password> <way>`
+
+Where:
+* filename is the the file you want to encode or decode
+* password is a super secret key used to crypt the data and after to decode
+* way can be e (for encode) or d (for decode). It tells what you need to
+do with the file.
+
 ###Encode:
 `python encode.py file.txt devotchka e`
 
